@@ -1,0 +1,17 @@
+import numpy as np
+
+def softmax(a):
+    c =np.max(a)
+    exp_a =np.exp(a-c)
+    sum_a =np.sum(exp_a)
+    y =exp_a/sum_a
+    return y
+
+a =np.array([0.3, 2.9, 4.0])
+y =softmax(a)
+print(y)
+print(np.sum(y))
+
+#这个函数用于分类问题的输出层激活函数，它的输出被解释为“概率”。
+#一般而言，神经网络只把输出值最大的神经元所对应类别作为识别结果。
+#但是该函数使用前后的最大值不会改变，故神经网络在进行分类时，输出层的softmax函数可以省略。
