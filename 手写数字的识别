@@ -1,0 +1,33 @@
+import sys, os
+
+#sys.path：Python 的搜索路径列表。
+#当你用 import 导入模块时，Python 会从这个列表中的路径里查找模块。
+#前面代码中 sys.path.append(路径) 就是手动添加模块搜索路径，让 Python 能找到指定目录下的代码。
+sys.path.append(r"E:\ASUS\下载\【源代码】深度学习入门：基于Python的理论与实现_20240716 (1)")
+
+import numpy as np
+from dataset.mnist import load_mnist
+from PIL import Image
+
+def img_show(img):
+    pil_img =Image.fromarray(np.uint8(img)) #把numpy数组转换为PIL用的数据对象
+    pil_img.show()
+
+(x_train, t_train), (x_test, t_test) = load_mnist(flatten=True, normalize=False) #flatten表示是否展开为一维数组
+                                                                                 #normalize表示是否将正规化为0.0~1.0的值
+img = x_train[2]
+label = t_train[2]
+print(label)
+
+print(img.shape)         #numpy中的shape函数会返回一个元组，反映数组的“形状”
+                         #每一个元素对应数组一个维度的长度，元组的长度就是数组的维度数
+img = img.reshape(28,28) #将数组变为原来28*28像素的形状
+print(img.shape)
+
+img_show(img)
+
+#sys 模块（system 的缩写）
+#主要用于访问和操作 Python 解释器本身 的相关信息和功能，比如解释器的路径、命令行参数、退出程序等。
+
+#os 模块（operating system 的缩写）
+#主要用于与 操作系统交互，处理文件、目录（文件夹）、路径等操作系统相关的操作，比如创建文件夹、删除文件、获取当前目录等。
