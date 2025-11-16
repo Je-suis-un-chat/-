@@ -1,0 +1,42 @@
+from torch.utils.data import Dataset
+from PIL import Image
+import os 
+
+class Mydata(Dataset):
+        def __init__(self, root_dir, label_dir):
+            self.root_dir = root_dir
+            self.label_dir = label_dir
+            self_path = os.path.join(root_dir, label_dir)
+            self.img_path = os.listdir(self_path)#获取文件夹
+        def __getitem__(self, idx):
+            img_name = self.img_path[idx]
+            img_item_path = os.path.join(self.root_dir, self.label_dir, img_name) #防止不同系统表示路径方式的差异带来的麻烦
+            img = Image.open(img_item_path)
+            label = self.label_dir
+            return img, label
+        def __len__(self):
+             return len(self.img_path)
+
+
+root_dir = "hymenoptera_data\\hymenoptera_data\\train"
+label_dir = "ants"
+ants_dataset = Mydata(root_dir, label_dir)
+
+img,label = ants_dataset.__getitem__(0)
+img.show()
+
+#此代码练习的目的是练习定义dataset类的子类以此批量获取数据样本
+##dataset类的介绍：
+  ###1. Dataset 类的核心作用
+        封装数据集的索引（index）与数据样本（sample）之间的映射关系。
+        允许通过索引（如 dataset[0]）获取单个数据样本（通常包含输入数据和标签）。
+        配合 DataLoader 类实现批量加载、多线程读取、数据打乱等功能。
+###2. 如何自定义 Dataset 子类？
+       要使用 Dataset，需自定义一个子类并必须实现以下两个方法：
+            __len__()：返回数据集的总样本数（用于告知数据集大小）。
+           __getitem__(self, idx)：根据索引 idx 返回对应的样本（通常是 (数据, 标签) 的元组）。
+       此外，通常会在 __init__() 方法中完成初始化工作（如加载文件路径、解析标签等）。
+
+
+
+
